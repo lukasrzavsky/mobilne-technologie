@@ -1,37 +1,40 @@
-export const FETCH_SEARCHED_JOKES = 'FETCH_SEARCHED_JOKES';
-export const FETCH_SEARCHED_JOKES_SUCCESS = 'FETCH_SEARCHED_JOKES_SUCCESS';
-export const FETCH_SEARCHED_JOKES_FAILURE = 'FETCH_SEARCHED_JOKES_FAILURE';
+export const FETCH_JOKES = 'FETCK_JOKES';
+export const FETCH_JOKES_SUCCESS = 'FETCH_JOKES_SUCCESS';
+export const FETCH_JOKES_FAILURE = 'FETCH_JOKES_FAILURE';
 
-export const fetchSearchedJokes = () => {
-    return {
-        type : FETCH_SEARCHED_JOKES
-    };
+export const fetchJokes = () => {
+  return {
+    type: FETCH_JOKES,
+  };
 };
 
-export const fetchSearchedJokesSuccess = (searchedJokes) => {
-    return {
-        type : FETCH_SEARCHED_JOKES_SUCCESS,
-        searchedJokes : searchedJokes,
-    };
+export const fetchJokesSuccess = (jokes) => {
+  return {
+    type: FETCH_JOKES_SUCCESS,
+    jokes: jokes,
+  };
 };
 
-export const fetchSearchedJokesFailure = (error) => {
-    return {
-        type : FETCH_SEARCHED_JOKES_FAILURE,
-        error : error,
-    };
+export const fetchJokesError = (error) => {
+  return {
+    type: FETCH_JOKES_FAILURE,
+    error: error,
+  };
 };
 
-export const fetchJokes = (searchPhrase) => (dispatch) => {
-    dispatch(fetchSearchedJokes());
-    fetch(`https://api.chucknorris.io/jokes/search?query=${searchPhrase}`)
-        .then(response => response.json())
-        .then(
-            ({result}) => {
-                dispatch(fetchSearchedJokesSuccess(result));
-            },
-            (error) => {
-                dispatch(fetchJokesFailure(error));
-            },
-        );
+export const fetchJokesHandler = (searchPhrase) => (dispatch) => {
+  dispatch(fetchJokesSuccess());
+  dispatch(fetchJokes());
+  fetch(`https://api.chucknorris.io/jokes/search?query=${searchPhrase}`)
+    .then((response) => {
+      return response.json();
+    })
+    .then(
+      ({ result }) => {
+        dispatch(fetchJokesSuccess(result));
+      },
+      (error) => {
+        dispatch(fetchJokesError(error));
+      },
+    );
 };
