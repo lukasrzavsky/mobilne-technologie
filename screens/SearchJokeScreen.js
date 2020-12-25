@@ -1,14 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import {
-  View,
-  TextInput,
-  StyleSheet,
-  Button,
-  Text,
-  ScrollView,
-} from 'react-native';
+import { View, TextInput, StyleSheet, Text, ScrollView } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
+import { HeaderButtons, Item } from 'react-navigation-header-buttons';
+
 import { fetchJokesHandler } from '../store/actions';
+
+import HeaderButton from '../components/HeaderButton';
 
 const SearchJokeScreen = ({ navigation }) => {
   const [searchPhrase, setSearchPhrase] = useState('');
@@ -62,17 +59,25 @@ const SearchJokeScreen = ({ navigation }) => {
             onChangeText={(text) => setSearchPhrase(text)}
             style={styles.searchInput}
           />
-          <Button
-            title="Go to Settings!"
-            onPress={() => {
-              navigation.navigate({ routeName: 'Settings' });
-            }}
-          />
         </View>
         <View>{renderData()}</View>
       </View>
     </ScrollView>
   );
+};
+
+SearchJokeScreen.navigationOptions = ({ navigation }) => {
+  return {
+    headerLeft: (
+      <HeaderButtons HeaderButtonComponent={HeaderButton}>
+        <Item
+          title="Menu"
+          iconName="ios-menu"
+          onPress={() => navigation.toggleDrawer()}
+        />
+      </HeaderButtons>
+    ),
+  };
 };
 
 const styles = StyleSheet.create({
