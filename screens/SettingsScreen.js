@@ -4,7 +4,7 @@ import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 
 import HeaderButton from '../components/HeaderButton';
 
-const SearchJokeScreen = () => {
+const SettingsJokeScreen = () => {
   return (
     <View style={styles.screen}>
       <Text>Settings Screen!</Text>
@@ -12,8 +12,9 @@ const SearchJokeScreen = () => {
   );
 };
 
-SearchJokeScreen.navigationOptions = ({ navigation }) => {
+SettingsJokeScreen.navigationOptions = ({ navigation }) => {
   return {
+    headerTitle: 'Settings',
     headerLeft: (
       <HeaderButtons HeaderButtonComponent={HeaderButton}>
         <Item
@@ -34,4 +35,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SearchJokeScreen;
+export default SettingsJokeScreen;

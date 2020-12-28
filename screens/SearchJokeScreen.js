@@ -50,8 +50,8 @@ const SearchJokeScreen = ({ navigation }) => {
   };
 
   return (
-    <ScrollView>
-      <View style={styles.screen}>
+    <ScrollView style={styles.screen}>
+      <View>
         <View style={styles.container}>
           <TextInput
             placeholder="Search"
@@ -60,7 +60,7 @@ const SearchJokeScreen = ({ navigation }) => {
             style={styles.searchInput}
           />
         </View>
-        <View>{renderData()}</View>
+        <View style={styles.jokesWrapper}>{renderData()}</View>
       </View>
     </ScrollView>
   );
@@ -68,6 +68,7 @@ const SearchJokeScreen = ({ navigation }) => {
 
 SearchJokeScreen.navigationOptions = ({ navigation }) => {
   return {
+    headerTitle: 'Jokes',
     headerLeft: (
       <HeaderButtons HeaderButtonComponent={HeaderButton}>
         <Item
@@ -85,6 +86,7 @@ const styles = StyleSheet.create({
     padding: 60,
     // backgroundColor: 'black',
     height: '100%',
+    backgroundColor: 'white',
   },
   inputWrapper: {
     alignItems: 'center',
@@ -93,10 +95,18 @@ const styles = StyleSheet.create({
   searchInput: {
     borderBottomWidth: 1,
     borderBottomColor: 'black',
-    width: '80%',
+    width: '100%',
   },
   jokeWrapper: {
-    padding: 10,
+    marginVertical: 10,
+    padding: 5,
+    backgroundColor: 'white',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.8,
+  },
+  jokesWrapper: {
+    paddingVertical: 30,
   },
 });
 export default SearchJokeScreen;

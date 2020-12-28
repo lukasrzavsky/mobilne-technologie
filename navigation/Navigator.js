@@ -6,7 +6,10 @@ import SearchJokesScreen from '../screens/SearchJokeScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 
 const JokesNavigator = createStackNavigator({
-  SearchJokes: SearchJokesScreen,
+  SearchJokes: {
+    screen: SearchJokesScreen,
+    navigationOptions: { drawerLabel: 'Jokes' },
+  },
 });
 
 const SettingsNavigator = createStackNavigator({
@@ -14,8 +17,14 @@ const SettingsNavigator = createStackNavigator({
 });
 
 const MainNavigator = createDrawerNavigator({
-  Jokes: JokesNavigator,
-  Settings: SettingsNavigator,
+  Jokes: {
+    screen: JokesNavigator,
+    navigationOptions: { drawerLabel: 'Jokes' },
+  },
+  Settings: {
+    screen: SettingsNavigator,
+    navigationOptions: { drawerLabel: 'Settings' },
+  },
 });
 
 export default createAppContainer(MainNavigator);
