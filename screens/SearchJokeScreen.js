@@ -3,7 +3,7 @@ import { View, TextInput, StyleSheet, Text, ScrollView } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 
-import { fetchJokesHandler } from '../store/actions';
+import { fetchJokesHandler } from '../store/actions/jokes';
 
 import HeaderButton from '../components/HeaderButton';
 
@@ -12,15 +12,20 @@ const SearchJokeScreen = ({ navigation }) => {
 
   const dispatch = useDispatch();
 
-  const jokes = useSelector((state) => state.jokes);
-  const isLoading = useSelector((state) => state.isLoading);
-  const error = useSelector((state) => state.error);
+  const jokes = useSelector((state) => state.jokes.jokes);
+  const isLoading = useSelector((state) => state.jokes.isLoading);
+  const error = useSelector((state) => state.jokes.error);
+  const darkMode = useSelector((state) => state.settings.darkMode);
 
   useEffect(() => {
     if (searchPhrase.length >= 3) {
       dispatch(fetchJokesHandler(searchPhrase));
     }
   }, [searchPhrase, dispatch]);
+
+  useEffect(() => {
+    navigation.setParams({ mode: darkMode });
+  }, [darkMode]);
 
   const spliceJokes = (jokes) => jokes && jokes.splice(0, 25);
 
@@ -50,14 +55,26 @@ const SearchJokeScreen = ({ navigation }) => {
   };
 
   return (
-    <ScrollView style={styles.screen}>
+    <ScrollView
+      style={{
+        ...styles.screen,
+        ...{ backgroundColor: darkMode ? 'black' : 'white' },
+      }}
+    >
       <View>
         <View style={styles.container}>
           <TextInput
             placeholder="Search"
+            placeholderTextColor={darkMode ? 'white' : 'black'}
             value={searchPhrase}
             onChangeText={(text) => setSearchPhrase(text)}
-            style={styles.searchInput}
+            style={{
+              ...styles.searchInput,
+              ...{
+                color: darkMode ? 'white' : 'black',
+                borderColor: darkMode ? 'white' : 'black',
+              },
+            }}
           />
         </View>
         <View style={styles.jokesWrapper}>{renderData()}</View>
@@ -67,6 +84,8 @@ const SearchJokeScreen = ({ navigation }) => {
 };
 
 SearchJokeScreen.navigationOptions = ({ navigation }) => {
+  const darkMode = navigation.getParam('mode');
+
   return {
     headerTitle: 'Jokes',
     headerLeft: (
@@ -78,13 +97,16 @@ SearchJokeScreen.navigationOptions = ({ navigation }) => {
         />
       </HeaderButtons>
     ),
+    headerStyle: {
+      backgroundColor: darkMode ? 'black' : 'white',
+    },
+    headerTintColor: darkMode ? 'white' : 'black',
   };
 };
 
 const styles = StyleSheet.create({
   screen: {
     padding: 60,
-    // backgroundColor: 'black',
     height: '100%',
     backgroundColor: 'white',
   },
@@ -94,7 +116,6 @@ const styles = StyleSheet.create({
   },
   searchInput: {
     borderBottomWidth: 1,
-    borderBottomColor: 'black',
     width: '100%',
   },
   jokeWrapper: {
