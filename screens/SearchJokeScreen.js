@@ -6,6 +6,7 @@ import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import { fetchJokesHandler } from '../store/actions/jokes';
 
 import HeaderButton from '../components/HeaderButton';
+import Joke from '../components/Joke';
 
 const SearchJokeScreen = ({ navigation }) => {
   const [searchPhrase, setSearchPhrase] = useState('');
@@ -32,7 +33,6 @@ const SearchJokeScreen = ({ navigation }) => {
   const renderData = () => {
     if (error) {
       const { message } = error;
-      console.error(message);
       return <Text>Error: {message}</Text>;
     }
 
@@ -42,16 +42,7 @@ const SearchJokeScreen = ({ navigation }) => {
 
     const splicedJokes = spliceJokes(jokes);
 
-    return (
-      <View>
-        {jokes &&
-          splicedJokes.map(({ id, value }) => (
-            <View style={styles.jokeWrapper} key={id}>
-              <Text>{value}</Text>
-            </View>
-          ))}
-      </View>
-    );
+    return <Joke jokes={jokes && splicedJokes} darkMode={darkMode} />;
   };
 
   return (
@@ -87,7 +78,7 @@ SearchJokeScreen.navigationOptions = ({ navigation }) => {
   const darkMode = navigation.getParam('mode');
 
   return {
-    headerTitle: 'Jokes',
+    headerTitle: 'Chuck Norris Jokes',
     headerLeft: (
       <HeaderButtons HeaderButtonComponent={HeaderButton}>
         <Item
@@ -120,14 +111,16 @@ const styles = StyleSheet.create({
   },
   jokeWrapper: {
     marginVertical: 10,
-    padding: 5,
-    backgroundColor: 'white',
-    shadowColor: '#000',
+    padding: 15,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.8,
+    minHeight: 90,
+    display: 'flex',
+    justifyContent: 'center',
   },
   jokesWrapper: {
     paddingVertical: 30,
+    marginBottom: 50,
   },
 });
 export default SearchJokeScreen;
